@@ -115,7 +115,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between; /* 3개 섹션을 균등 분배 */
-  padding: 0 80px;
+  padding: 0 60px;
 }
 
 /* Logo Section */
@@ -147,14 +147,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1; /* 남은 공간 차지 */
+  /* flex: 1; 남은 공간 차지 */
 }
 
 /* Navigation */
 .navigation {
   display: flex;
   align-items: center;
-  gap: 60px;
+  gap: 80px;
 }
 
 .nav-link {
@@ -181,13 +181,12 @@ export default {
 
 .divider {
   width: 1px;
-  height: 34px;
-  background-color: #E0E0E0;
+  height: 28px;
+  background-color: #B8B8BC;
 }
 
 .button-group {
   display: flex;
-  gap: 30px;
 }
 
 .primary-btn, .secondary-btn {

@@ -541,7 +541,7 @@ export default {
 
 .text-wrapper-2 {
   color: #000000;
-  font-family: "Pretendard-SemiBold", Helvetica;
+  font-family: "Pretendard-SemiBold";
   font-size: 52px;
   font-weight: 600;
   line-height: 1;
@@ -553,7 +553,7 @@ export default {
 
 .text-wrapper-3 {
   color: #000000;
-  font-family: "Pretendard-SemiBold", Helvetica;
+  font-family: "Pretendard-SemiBold";
   font-size: 52px;
   font-weight: 600;
   line-height: 1;
@@ -565,7 +565,7 @@ export default {
 
 .description {
   color: #000000;
-  font-family: "Pretendard-Thin", Helvetica;
+  font-family: "Pretendard-Thin";
   font-size: 20px;
   font-weight: 100;
   line-height: 1.2;
@@ -715,7 +715,7 @@ export default {
 .pentagon-text {
   text-align: center;
   color: #ffffff;
-  font-family: "Pretendard-Bold", Helvetica;
+  font-family: "Pretendard-Bold";
   margin-top: 5%;
 }
 
@@ -774,7 +774,7 @@ export default {
 /* Feature Text - 점에서 떨어진 위치 */
 .feature-text {
   position: absolute;
-  font-family: "Pretendard-SemiBold", Helvetica;
+  font-family: "Pretendard-SemiBold";
   font-size: clamp(12px, 3.5vmin, 28px);
   font-weight: 600;
   color: #000000;
@@ -1051,7 +1051,7 @@ export default {
 }
 
 .main-title-3 {
-  font-family: "Pretendard-Bold", Helvetica;
+  font-family: "Pretendard-Bold";
   font-size: clamp(28px, 4vw, 48px);
   font-weight: 700;
   line-height: normal;
@@ -1066,7 +1066,7 @@ export default {
 }
 
 .subtitle-3 {
-  font-family: "Pretendard-Thin", Helvetica;
+  font-family: "Pretendard-Thin";
   font-size: clamp(14px, 2vw, 20px);
   font-weight: 100;
   color: #000000;
@@ -1136,7 +1136,7 @@ export default {
 }
 
 .step-number {
-  font-family: "Pretendard-ExtraBold", Helvetica;
+  font-family: "Pretendard-ExtraBold";
   font-size: clamp(20px, 2.5vw, 32px);
   font-weight: 600;
   color: #333333;
@@ -1145,7 +1145,7 @@ export default {
 
 /* 단계 제목 */
 .step-title {
-  font-family: "Pretendard-SemiBold", Helvetica;
+  font-family: "Pretendard-SemiBold";
   font-size: clamp(16px, 2vw, 24px);
   font-weight: 600;
   color: #ffffff;
@@ -1155,7 +1155,7 @@ export default {
 
 /* 단계 설명 */
 .step-description {
-  font-family: "Pretendard-Light", Helvetica;
+  font-family: "Pretendard-Light";
   font-size: clamp(12px, 1.5vw, 16px);
   font-weight: 300;
       color: #ffffff;
@@ -1205,8 +1205,8 @@ export default {
 }
 
 .main-title-4 {
-  font-family: "Pretendard-Bold", Helvetica;
-  font-size: clamp(28px, 4.5vw, 56px);
+  font-family: "Pretendard-Bold";
+  font-size: clamp(28px, 4vw, 48px);
   font-weight: 600;
   line-height: normal;
   margin-top: 72px;
@@ -1227,9 +1227,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(40px, 8vw, 100px);
+  gap: clamp(60px, 16vw, 280px);
   width: 100%;
-  max-width: 1280px;
+  max-width: 1920px;
   margin: 0 auto;
 }
 
@@ -1242,8 +1242,8 @@ export default {
 
 .stat-number {
   color: #F69E7B;
-  font-family: "Pretendard-Bold", Helvetica;
-  font-size: clamp(32px, 4vw, 44px);
+  font-family: "Pretendard-Bold";
+  font-size: clamp(28px, 4vw, 36px);
   font-weight: 600;
   line-height: normal;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -1252,8 +1252,8 @@ export default {
 
 .stat-label {
   color: #ffffff;
-  font-family: "Pretendard-Thin", Helvetica;
-  font-size: clamp(8px, 2vw, 24px);
+  font-family: "Pretendard-Thin";
+  font-size: clamp(8px, 2vw, 20px);
   font-weight: 100;
   line-height: normal;
 }
@@ -1264,20 +1264,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: clamp(16px, 2vw, 36px);
-  padding: 40px 20px 20px 20px;
+  gap: clamp(20px, 4vw, 240px);
+  padding: 60px 10px 10px 20px;
   box-sizing: border-box;
-  max-width: 1280px;
+  max-width: 1920px;
   margin: 0 auto;
 }
 
 .testimonial-card {
   background-color: #ffffff;
-  border-radius: 15px;
+  border-radius: 12px;
   box-shadow: -4px 4px 8px 2px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 320px;
-  height: 320px;
+  max-width: 280px;
+  height: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1327,8 +1327,8 @@ export default {
 
 .testimonial-text {
   color: #000000;
-  font-family: "Pretendard-Light", Helvetica;
-  font-size: clamp(14px, 1.2vw, 20px);
+  font-family: "Pretendard-Light";
+  font-size: clamp(8px, 1vw, 16px);
   font-weight: 300;
   line-height: 1.4;
   /* margin: 0 0 20px 0; */
@@ -1337,8 +1337,8 @@ export default {
 
 .testimonial-author {
   color: #000000;
-  font-family: "Pretendard-Thin", Helvetica;
-  font-size: clamp(12px, 1vw, 16px);
+  font-family: "Pretendard-Thin";
+  font-size: clamp(8px, 1vw, 16px);
   font-weight: 100;
   line-height: normal;
   text-align: center;
@@ -1351,7 +1351,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 8px;
   box-sizing: border-box;
   margin-top: auto;
 }
@@ -1366,7 +1366,7 @@ export default {
 
 .copyright {
   color: #666666;
-  font-family: "Pretendard-Thin", Helvetica;
+  font-family: "Pretendard-Thin";
   font-size: clamp(12px, 1vw, 16px);
   font-weight: 100;
   line-height: normal;

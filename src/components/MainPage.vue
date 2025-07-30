@@ -1,7 +1,7 @@
 <template>
   <div class="main-page">
     <!-- Header Component -->
-    <Header :isLoggedIn="false" />
+    <Header :isLoggedIn="false" @navigate="handleNavigation" />
     
     <!-- Main Content 1 -->
     <div class="main-content">
@@ -21,20 +21,23 @@
 
       <!-- Right Section - Image -->
       <div class="image-section">
-        <img class="main-image" alt="Main Image" src="/images/main_1.png" />
+        <img class="main-image" :src="currentImage" alt="Main Image" />
         
         <!-- Pagination Dots -->
         <div class="pagination-dots">
-          <div class="dot active"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
+          <div 
+            v-for="(img, index) in images" 
+            :key="index"
+            class="dot"
+            :class="{ active: currentImageIndex === index }"
+          ></div>
         </div>
       </div>
       
       <!-- Scroll Indicator 1 -->
       <div class="scroll-indicator-wrapper">
-        <div class="scroll-indicator">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="scroll-indicator bounce" @click="scrollToPage(1)">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 10L12 15L17 10" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -87,8 +90,8 @@
       
       <!-- Scroll Indicator 2 -->
       <div class="scroll-indicator-wrapper-2">
-        <div class="scroll-indicator">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="scroll-indicator bounce" @click="scrollToPage(2)">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 10L12 15L17 10" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -155,8 +158,8 @@
 
       <!-- Scroll Indicator 3 -->
       <div class="scroll-indicator-wrapper-3">
-        <div class="scroll-indicator">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="scroll-indicator bounce" @click="scrollToPage(3)">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 10L12 15L17 10" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -267,100 +270,119 @@ export default {
   data() {
     return {
       currentTextIndex: -1, // 현재 강조된 텍스트 인덱스 (-1은 아무것도 강조되지 않음)
-      totalTexts: 5 // 총 텍스트 개수
+      totalTexts: 5, // 총 텍스트 개수
+      currentPage: 0, // 현재 페이지 상태 추가
+      currentImageIndex: 0,
+      images: [
+        '/images/main_1.png',
+        '/images/main_2.png',
+        '/images/main_3.png'
+      ],
+      imageInterval: null
+    }
+  },
+  computed: {
+    currentImage() {
+      return this.images[this.currentImageIndex]
     }
   },
   mounted() {
     this.initScrollAnimation()
+    this.startImageRotation()
+  },
+  beforeUnmount() {
+    // 이미지 인터벌 정리
+    if (this.imageInterval) {
+      clearInterval(this.imageInterval)
+    }
+    
+    // 이벤트 리스너 정리
+    if (this.wheelHandler) {
+      window.removeEventListener('wheel', this.wheelHandler)
+    }
+    if (this.keydownHandler) {
+      window.removeEventListener('keydown', this.keydownHandler)
+    }
   },
   methods: {
-    initScrollAnimation() {
-      let isScrolling = false
-      let currentPage = 0
-      const pages = document.querySelectorAll('.main-content, .main-content-2, .main-content-3, .main-content-4')
-      
-      const scrollToPage = (pageIndex) => {
-        if (pageIndex >= 0 && pageIndex < pages.length) {
-          // 부드러운 전환을 위한 CSS 애니메이션 적용
-          pages.forEach((page, index) => {
-            if (index === pageIndex) {
-              page.style.transform = 'translateY(0)'
-              page.style.opacity = '1'
-            } else if (index < pageIndex) {
-              page.style.transform = 'translateY(-100vh)'
-              page.style.opacity = '0'
-            } else {
-              page.style.transform = 'translateY(100vh)'
-              page.style.opacity = '0'
-            }
-          })
-          currentPage = pageIndex
-          
-          // 페이지 변경 시 텍스트 강조 상태 초기화
-          if (pageIndex !== 1) {
-            this.resetTextEmphasis()
+    handleNavigation(pageIndex) {
+      this.scrollToPage(pageIndex)
+    },
+    scrollToPage(pageIndex) {
+      if (pageIndex >= 0 && pageIndex < this.pages?.length) {
+        // 부드러운 전환을 위한 CSS 애니메이션 적용
+        this.pages.forEach((page, index) => {
+          if (index === pageIndex) {
+            page.style.transform = 'translateY(0)'
+            page.style.opacity = '1'
+          } else if (index < pageIndex) {
+            page.style.transform = 'translateY(-100vh)'
+            page.style.opacity = '0'
+          } else {
+            page.style.transform = 'translateY(100vh)'
+            page.style.opacity = '0'
           }
+        })
+        this.currentPage = pageIndex
+        
+        // 페이지 변경 시 텍스트 강조 상태 초기화
+        if (pageIndex !== 1) {
+          this.resetTextEmphasis()
         }
       }
+    },
+    initScrollAnimation() {
+      let isScrolling = false
+      this.pages = document.querySelectorAll('.main-content, .main-content-2, .main-content-3, .main-content-4')
       
       const handleWheel = (e) => {
-        e.preventDefault() // 기본 스크롤 방지
+        e.preventDefault()
         
         if (isScrolling) return
         
         isScrolling = true
         
-        // 두 번째 페이지에서의 특별한 처리
-        if (currentPage === 1) {
+        if (this.currentPage === 1) {
           if (e.deltaY > 0) {
-            // 아래로 스크롤 - 텍스트 강조
             if (this.currentTextIndex < this.totalTexts - 1) {
               this.currentTextIndex++
               this.emphasizeText(this.currentTextIndex)
             } else {
-              // 마지막 텍스트까지 강조했으면 다음 페이지로 (만약 있다면)
-              if (currentPage < pages.length - 1) {
-                currentPage++
-                scrollToPage(currentPage)
+              if (this.currentPage < this.pages.length - 1) {
+                this.currentPage++
+                this.scrollToPage(this.currentPage)
               }
             }
           } else if (e.deltaY < 0) {
-            // 위로 스크롤 - 텍스트 강조 해제
             if (this.currentTextIndex >= 0) {
               this.deemphasizeText(this.currentTextIndex)
               this.currentTextIndex--
             } else {
-              // 첫 번째 텍스트보다 위로 가면 이전 페이지로
-              if (currentPage > 0) {
-                currentPage--
-                scrollToPage(currentPage)
+              if (this.currentPage > 0) {
+                this.currentPage--
+                this.scrollToPage(this.currentPage)
               }
             }
           }
         } else {
-          // 다른 페이지에서는 기존 로직
-          if (e.deltaY > 0 && currentPage < pages.length - 1) {
-            // 아래로 스크롤 (슈-웅 효과)
-            currentPage++
-            scrollToPage(currentPage)
-          } else if (e.deltaY < 0 && currentPage > 0) {
-            // 위로 스크롤 (슈-웅 효과)
-            currentPage--
-            scrollToPage(currentPage)
+          if (e.deltaY > 0 && this.currentPage < this.pages.length - 1) {
+            this.currentPage++
+            this.scrollToPage(this.currentPage)
+          } else if (e.deltaY < 0 && this.currentPage > 0) {
+            this.currentPage--
+            this.scrollToPage(this.currentPage)
           }
         }
         
         setTimeout(() => {
           isScrolling = false
-        }, 600) // 쿨다운 시간 단축
+        }, 600)
       }
       
-      // 키보드 지원 추가 (화살표 키)
       const handleKeydown = (e) => {
         if (isScrolling) return
         
-        if (currentPage === 1) {
-          // 두 번째 페이지에서 키보드 처리
+        if (this.currentPage === 1) {
           if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
             isScrolling = true
             if (this.currentTextIndex < this.totalTexts - 1) {
@@ -377,16 +399,15 @@ export default {
             setTimeout(() => { isScrolling = false }, 600)
           }
         } else {
-          // 다른 페이지에서는 기존 로직
-          if (e.key === 'ArrowDown' && currentPage < pages.length - 1) {
+          if (e.key === 'ArrowDown' && this.currentPage < this.pages.length - 1) {
             isScrolling = true
-            currentPage++
-            scrollToPage(currentPage)
+            this.currentPage++
+            this.scrollToPage(this.currentPage)
             setTimeout(() => { isScrolling = false }, 900)
-          } else if (e.key === 'ArrowUp' && currentPage > 0) {
+          } else if (e.key === 'ArrowUp' && this.currentPage > 0) {
             isScrolling = true
-            currentPage--
-            scrollToPage(currentPage)
+            this.currentPage--
+            this.scrollToPage(this.currentPage)
             setTimeout(() => { isScrolling = false }, 900)
           }
         }
@@ -396,13 +417,11 @@ export default {
       window.addEventListener('keydown', handleKeydown)
       
       // 초기 페이지 설정
-      scrollToPage(0)
+      this.scrollToPage(0)
       
-      // 컴포넌트 제거 시 이벤트 리스너 정리
-      this.$once('hook:beforeDestroy', () => {
-        window.removeEventListener('wheel', handleWheel)
-        window.removeEventListener('keydown', handleKeydown)
-      })
+      // 이벤트 리스너를 인스턴스 변수에 저장
+      this.wheelHandler = handleWheel
+      this.keydownHandler = handleKeydown
     },
     
     emphasizeText(index) {
@@ -493,6 +512,15 @@ export default {
           pentagonContainer.classList.remove('scaled')
         }
       }
+    },
+    startImageRotation() {
+      if (this.imageInterval) {
+        clearInterval(this.imageInterval)
+      }
+      
+      this.imageInterval = setInterval(() => {
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length
+      }, 10000) // 10초 간격
     }
   }
 }
@@ -618,7 +646,10 @@ export default {
   width: 400px;
   height: 400px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 20px;
+  transition: opacity 0.5s ease-in-out;
+  border: 0.4px solid #585555;
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* Pagination Dots */
@@ -635,7 +666,7 @@ export default {
   height: 8px;
   border-radius: 6px;
   background-color: #d9d9d9;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 .dot.active {
@@ -657,8 +688,39 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  border-radius: 50%;
+  padding: 12px;
+}
+
+.scroll-indicator:hover {
+  transform: scale(1.1);
+  background-color: rgba(158, 158, 158, 0.1);
+  animation-play-state: paused;
+}
+
+.scroll-indicator:active {
+  transform: scale(0.95);
+}
+
+/* 통통 뛰는 애니메이션 */
+.bounce {
+  animation: bounceUpDown 2s ease-in-out infinite;
+}
+
+@keyframes bounceUpDown {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
 }
 
 /* 두 번째 페이지 스타일 */

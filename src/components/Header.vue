@@ -23,10 +23,10 @@
         <nav class="navigation">
           <!-- 비로그인 상태 네비게이션 -->
           <template v-if="!isLoggedIn">
-            <a href="#" class="nav-link">쏙닥 소개</a>
-            <a href="#" class="nav-link">왜 필요할까요?</a>
-            <a href="#" class="nav-link">이용 방법</a>
-            <a href="#" class="nav-link">우리가 만든 변화</a>
+            <a href="#" class="nav-link" @click.prevent="navigateTo(0)">쏙닥 소개</a>
+            <a href="#" class="nav-link" @click.prevent="navigateTo(1)">왜 필요할까요?</a>
+            <a href="#" class="nav-link" @click.prevent="navigateTo(2)">이용 방법</a>
+            <a href="#" class="nav-link" @click.prevent="navigateTo(3)">우리가 만든 변화</a>
           </template>
           
           <!-- 로그인 상태 네비게이션 -->
@@ -76,6 +76,11 @@ export default {
     isLoggedIn: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    navigateTo(pageIndex) {
+      this.$emit('navigate', pageIndex)
     }
   },
   computed: {
